@@ -1,0 +1,476 @@
+{
+    "common": {
+        "book_appointment": "Book Appointment",
+        "get_appointment": "GET AN APPOINTMENT",
+        "contact_now": "Contact Now",
+        "learn_more": "Learn More",
+        "read_more": "READ MORE",
+        "overview": "Overview",
+        "symptoms": "Symptoms",
+        "causes": "Causes",
+        "treatment_options": "Treatment Options",
+        "book_consultation": "Book a Consultation",
+        "what_to_expect": "What to Expect",
+        "indications": "Indications",
+        "benefits": "Benefits",
+        "book_this_service": "Book This Service"
+    },
+    "nav": {
+        "home": "HOME",
+        "about": "ABOUT",
+        "services": "SERVICES",
+        "facilities": "FACILITIES",
+        "gallery": "GALLERY",
+        "faq": "FAQ",
+        "enquiry": "ENQUIRY",
+        "contact": "CONTACT"
+    },
+    "hero": {
+        "slide1_heading": "Advanced Heart Care in Solapur",
+        "slide1_subheading": "Comprehensive Cardiology Services with Modern Technology",
+        "slide2_heading": "Expert Cardiac Consultation",
+        "slide2_subheading": "Accurate Diagnosis and Personalized Treatment Plans",
+        "slide3_heading": "Emergency Cardiac Support",
+        "slide3_subheading": "Immediate Attention for Critical Heart Conditions"
+    },
+    "header": {
+        "clinic_name": "Dr. Shewale's",
+        "clinic_subname": "Sai Heart Care",
+        "clinic_location": "Solapur, Maharashtra",
+        "visiting_hours": "Visiting Hours",
+        "hours_value": "03:00 pm - 07:00 pm",
+        "make_appointment": "Make an Appointment"
+    },
+    "about": {
+        "title": "About Dr. Sunil Shewale",
+        "subtitle": "Dr. Shewale's Sai Heart Care, Solapur",
+        "description1": "Dr. Sunil Shewale is a renowned Interventional Cardiologist in Solapur with extensive experience in the field of cardiology. He completed his MBBS and MD in General Medicine, followed by a prestigious DM in Cardiology. With years of dedicated practice, Dr. Shewale has become one of the most trusted names in cardiac care in the region.",
+        "description2": "His expertise spans across a wide range of cardiac procedures including coronary angiography, angioplasty, pacemaker implantation, and pediatric cardiac interventions. Dr. Shewale's Sai Heart Care is equipped with state-of-the-art facilities to provide comprehensive cardiac care to patients of all ages."
+    },
+    "topbar": {
+        "address": "Sindagi Complex, 1st Floor Old Employment Chowk, Solapur",
+        "clinic_title": "Dr. Sunil Shewale Superspeciality Heart Care For Cardiology in Solapur"
+    },
+    "footer": {
+        "contact_us": "Contact Us",
+        "get_in_touch": "Get in Touch",
+        "description": "Dr. Sunil Shewale is a renowned Interventional Cardiologist providing comprehensive cardiac care at his state-of-the-art clinic in Solapur.",
+        "visiting_hours": "05:00 am - 09:00 pm",
+        "copyright": "Copyright © 2026 Dr. Sunil Shewale Superspeciality Heart Care. All Rights Reserved."
+    },
+    "treatments": {
+        "title": "Treatments We Offer For",
+        "cad": "Coronary Artery Disease",
+        "cad_desc": "Comprehensive diagnosis and treatment of blocked or narrowed coronary arteries.",
+        "heart_failure": "Heart Failure",
+        "hf_desc": "Advanced management of heart failure with modern therapeutic approaches.",
+        "congenital": "Congenital Heart Diseases",
+        "congenital_desc": "Specialized care for heart defects present from birth in children and adults.",
+        "arrhythmias": "Arrhythmias",
+        "arrhythmias_desc": "Expert treatment of irregular heartbeats and rhythm disorders.",
+        "cardiomyopathy": "Cardiomyopathy",
+        "cardiomyopathy_desc": "Diagnosis and management of diseases affecting the heart muscle.",
+        "pad": "Peripheral Artery Disease",
+        "pad_desc": "Treatment of narrowed arteries reducing blood flow to limbs.",
+        "hypertension": "Hypertension",
+        "hypertension_desc": "Comprehensive management of high blood pressure and related complications.",
+        "diabetes": "Diabetes",
+        "diabetes_desc": "Cardiac care for patients with diabetes and related heart conditions.",
+        "tavi": "TAVI (Transcatheter Aortic Valve Implantation)",
+        "tavi_desc": "Minimally invasive procedure to replace a narrowed or diseased aortic valve without traditional open-heart surgery.",
+        "cad_details": {
+            "overview": "Coronary Artery Disease (CAD) occurs when the coronary arteries that supply blood to the heart muscle become hardened and narrowed due to a build-up of plaque. It is the most common type of heart disease and the leading cause of death worldwide.",
+            "symptoms": [
+                "Chest pain (angina)",
+                "Shortness of breath",
+                "Pain in neck",
+                "Nausea",
+                "Heart attack"
+            ],
+            "causes": [
+                "High cholesterol",
+                "Smoking",
+                "Diabetes",
+                "Obesity"
+            ],
+            "treatments": [
+                "Lifestyle changes",
+                "Medications",
+                "Angioplasty",
+                "Bypass surgery"
+            ]
+        },
+        "heart_failure_details": {
+            "overview": "Heart failure is a chronic condition where the heart doesn't pump blood as efficiently as it should.",
+            "symptoms": [
+                "Breathlessness",
+                "Persistent cough",
+                "Swelling in legs",
+                "Rapid heartbeat",
+                "Fatigue"
+            ],
+            "causes": [
+                "Coronary artery disease",
+                "High blood pressure",
+                "Previous heart attacks",
+                "Valve disease"
+            ],
+            "treatments": [
+                "ACE inhibitors",
+                "Beta-blockers",
+                "Implantable devices",
+                "Heart transplant"
+            ]
+        },
+        "congenital_details": {
+            "overview": "Congenital heart disease refers to structural problems with the heart that are present at birth.",
+            "symptoms": [
+                "Cyanosis",
+                "Rapid breathing",
+                "Poor weight gain",
+                "Swelling",
+                "Tiring quickly"
+            ],
+            "causes": [
+                "Genetic factors",
+                "Maternal infections",
+                "Medications",
+                "Unknown causes"
+            ],
+            "treatments": [
+                "Catheterization",
+                "Open-heart surgery",
+                "Heart transplant",
+                "Medication"
+            ]
+        },
+        "arrhythmias_details": {
+            "overview": "Arrhythmia refers to any disorder of the heart rate or rhythm.",
+            "symptoms": [
+                "Palpitations",
+                "Dizziness",
+                "Fainting",
+                "Chest pain",
+                "Cardiac arrest"
+            ],
+            "causes": [
+                "Coronary artery disease",
+                "Electrolyte imbalances",
+                "Changes in heart structure",
+                "High blood pressure"
+            ],
+            "treatments": [
+                "Antiarrhythmic medications",
+                "Cardioversion",
+                "Catheter ablation",
+                "Pacemaker"
+            ]
+        },
+        "cardiomyopathy_details": {
+            "overview": "Cardiomyopathy is a disease of the heart muscle that makes it harder for the heart to pump blood.",
+            "symptoms": [
+                "Breathlessness",
+                "Swelling",
+                "Bloating",
+                "Fatigue",
+                "Fainting"
+            ],
+            "causes": [
+                "Genetic inheritance",
+                "High blood pressure",
+                "Heart valve problems",
+                "Viral infections"
+            ],
+            "treatments": [
+                "Medications",
+                "Defibrillators",
+                "Surgery",
+                "Heart transplant"
+            ]
+        },
+        "pad_details": {
+            "overview": "Peripheral Artery Disease (PAD) is a circulatory problem in which narrowed arteries reduce blood flow to the limbs.",
+            "symptoms": [
+                "Leg pain",
+                "Leg numbness",
+                "Coldness",
+                "Sores",
+                "Hair loss"
+            ],
+            "causes": [
+                "Atherosclerosis",
+                "Smoking",
+                "Diabetes",
+                "High blood pressure"
+            ],
+            "treatments": [
+                "Lifestyle changes",
+                "Medications",
+                "Angioplasty",
+                "Amputation"
+            ]
+        },
+        "hypertension_details": {
+            "overview": "Hypertension (high blood pressure) is a condition in which the blood pressure in the arteries is persistently elevated.",
+            "symptoms": [
+                "Asymptomatic",
+                "Headaches",
+                "Nosebleeds",
+                "Shortness of breath",
+                "Vision problems"
+            ],
+            "causes": [
+                "Age",
+                "Obesity",
+                "Excessive salt",
+                "Stress"
+            ],
+            "treatments": [
+                "DASH diet",
+                "Medications",
+                "Diuretics",
+                "Blood pressure monitoring"
+            ]
+        },
+        "diabetes_details": {
+            "overview": "Diabetes significantly increases the risk of heart disease.",
+            "symptoms": [
+                "Increased thirst",
+                "Fatigue",
+                "Slow-healing wounds",
+                "Chest pain",
+                "Numbness"
+            ],
+            "causes": [
+                "Insulin resistance",
+                "Beta cells destruction",
+                "Obesity",
+                "Genetics"
+            ],
+            "treatments": [
+                "Insulin therapy",
+                "Diet",
+                "Screening",
+                "Blood pressure control"
+            ]
+        },
+        "tavi_details": {
+            "overview": "TAVI is a procedure to replace a narrowed aortic valve without open-heart surgery.",
+            "symptoms": [
+                "Chest pain",
+                "Fainting",
+                "Shortness of breath",
+                "Fatigue",
+                "Palpitations"
+            ],
+            "causes": [
+                "Calcium buildup",
+                "Congenital defects",
+                "Rheumatic fever",
+                "Radiation therapy"
+            ],
+            "treatments": [
+                "TAVI",
+                "Medications",
+                "Balloon valvuloplasty",
+                "Cardiac rehab"
+            ]
+        }
+    },
+    "stats": {
+        "angiographies": "Coronary Angiographies",
+        "pacemakers": "Pacemaker Implantations",
+        "angioplasties": "Angioplasties",
+        "pediatric": "Paediatric Interventions"
+    },
+    "facilities": {
+        "title": "Facilities"
+    },
+    "banner": {
+        "call_text": "FOR APPOINTMENT CALL +91 744-744-5121"
+    },
+    "modal": {
+        "book_title": "Book Your Appointment",
+        "enquiry_title": "Enquiry Form",
+        "submit": "Submit Now"
+    },
+    "user_requested": {
+        "heart_care": "HeartCare",
+        "cardiologist_video_tips": "Cardiologist Video Tips",
+        "heart_health_videos": "Heart Health Videos",
+        "chest_pain": "Chest Pain"
+    },
+    "facilities_details": {
+        "cardiac_consultation": {
+            "title": "Cardiac Consultation",
+            "desc": "Comprehensive heart evaluations by experienced cardiologists.",
+            "overview": "A cardiac consultation is a comprehensive evaluation of your heart health conducted by an experienced cardiologist.",
+            "whatToExpect": [
+                "Detailed medical and family history review",
+                "Blood pressure and pulse check",
+                "Risk factor assessment"
+            ],
+            "indications": [
+                "Chest pain",
+                "Shortness of breath",
+                "Palpitations"
+            ],
+            "benefits": [
+                "Early detection of conditions",
+                "Personalised risk reduction",
+                "Expert assessment"
+            ]
+        },
+        "ecg": {
+            "title": "ECG",
+            "desc": "State-of-the-art electrocardiography for rapid, accurate detection of arrhythmias.",
+            "overview": "An Electrocardiogram (ECG) is a quick, painless test that records the electrical signals in your heart.",
+            "whatToExpect": [
+                "Electrodes placed on chest",
+                "Painless and non-invasive",
+                "Immediate digital results"
+            ],
+            "indications": [
+                "Chest discomfort",
+                "Irregular heartbeat",
+                "Pre-operative screening"
+            ],
+            "benefits": [
+                "Rapid detection of arrhythmias",
+                "Completely safe",
+                "Results immediately"
+            ]
+        },
+        "echo": {
+            "title": "2D Echo (Adult & Pediatric)",
+            "desc": "High-resolution echocardiography for evaluating heart structure and function.",
+            "overview": "2D Echocardiography uses high-frequency sound waves to create moving images of the heart.",
+            "whatToExpect": [
+                "Gel applied to chest",
+                "Real-time imaging of heart",
+                "Assessment of heart chambers"
+            ],
+            "indications": [
+                "Suspected valve disease",
+                "Heart failure evaluation",
+                "Post-heart attack"
+            ],
+            "benefits": [
+                "Detailed structural assessment",
+                "No radiation",
+                "Gold standard for valves"
+            ]
+        },
+        "tmt": {
+            "title": "Treadmill Test (TMT)",
+            "desc": "Exercise stress testing to uncover hidden coronary artery disease.",
+            "overview": "TMT evaluates how well your heart performs under physical stress.",
+            "whatToExpect": [
+                "ECG electrodes attached",
+                "Walking on treadmill",
+                "Continuous monitoring"
+            ],
+            "indications": [
+                "Chest pain on exertion",
+                "Evaluation of CAD",
+                "Assessment of exercise capacity"
+            ],
+            "benefits": [
+                "Non-invasive assessment under stress",
+                "Detection of hidden CAD",
+                "Guides treatment decisions"
+            ]
+        },
+        "abpm": {
+            "title": "Ambulatory BP Monitoring",
+            "desc": "24-hour blood pressure recording to capture real-world fluctuations.",
+            "overview": "ABPM involves wearing a portable BP monitor for 24 hours to record blood pressure at regular intervals.",
+            "whatToExpect": [
+                "Small cuff fitted on arm",
+                "BP recorded every 15-30 mins",
+                "Wear during normal activities"
+            ],
+            "indications": [
+                "White-coat hypertension",
+                "Masked hypertension",
+                "Monitoring treatment"
+            ],
+            "benefits": [
+                "Eliminates white-coat effect",
+                "Captures real-world BP",
+                "Identifies nocturnal patterns"
+            ]
+        },
+        "holter": {
+            "title": "Holter Monitoring",
+            "desc": "Continuous 24-48 hour ECG recording worn during daily activities.",
+            "overview": "Holter Monitoring is a continuous ECG recording that captures intermittent arrhythmias.",
+            "whatToExpect": [
+                "Electrodes placed on chest",
+                "Lightweight recorder on belt",
+                "Keep a diary of symptoms"
+            ],
+            "indications": [
+                "Unexplained palpitations",
+                "Syncope (fainting)",
+                "Monitoring arrhythmia treatment"
+            ],
+            "benefits": [
+                "Catches intermittent arrhythmias",
+                "No hospital stay required",
+                "Correlates symptoms with ECG"
+            ]
+        },
+        "angioplasty": {
+            "title": "Angioplasty",
+            "desc": "Minimally invasive balloon angioplasty with stent placement.",
+            "overview": "Coronary Angioplasty is a minimally invasive procedure to open narrowed coronary arteries.",
+            "whatToExpect": [
+                "Local anaesthesia at site",
+                "Balloon inflated to open blockage",
+                "Stent deployed"
+            ],
+            "indications": [
+                "Acute heart attack",
+                "Stable angina",
+                "Significant arterial narrowing"
+            ],
+            "benefits": [
+                "Rapid restoration of blood flow",
+                "Avoids bypass surgery",
+                "Short recovery time"
+            ]
+        },
+        "pacemaker": {
+            "title": "Pacemaker Implantation",
+            "desc": "Expert implantation of pacemakers for patients with bradycardia or heart block.",
+            "overview": "A pacemaker is a device implanted to regulate abnormal heart rhythms.",
+            "whatToExpect": [
+                "Local anaesthesia",
+                "Small incision near collarbone",
+                "Lead threaded to heart"
+            ],
+            "indications": [
+                "Symptomatic bradycardia",
+                "High-degree heart block",
+                "Unexplained syncope"
+            ],
+            "benefits": [
+                "Prevents slow heart rates",
+                "Relieves dizziness and fatigue",
+                "Lasts 7-15 years"
+            ]
+        }
+    },
+    "testimonials_faq": {
+        "patient_stories": "Patient Stories",
+        "voices_of_recovery": "Voices of Recovery",
+        "real_patients_outcomes": "Real patients sharing real outcomes — hover a card to watch their story.",
+        "no_testimonials": "No testimonials available at the moment.",
+        "got_questions": "Got Questions?",
+        "everything_you_need_to_know": "Everything you need to know before your procedure.",
+        "no_faqs": "No FAQs available at the moment.",
+        "still_have_questions": "Still have questions? We're here to help.",
+        "talk_to_our_team": "Talk to Our Team"
+    }
+}

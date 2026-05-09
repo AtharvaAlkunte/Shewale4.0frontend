@@ -1,0 +1,231 @@
+import React from "react";
+import { Clock, Phone, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+import clinicLogo from "../../assets/Dr.Sunil Shewale logo.jpeg";
+import facebookIcon from "../../assets/facebook.png.jpg";
+import instagramIcon from "../../assets/instagram.png.jpg";
+import qrCode from "../../assets/qr-code.png.png";
+import { Star } from "lucide-react";
+
+const MainHeader: React.FC = () => {
+const { t } = useTranslation();
+
+return (
+<>
+    <style>
+        {
+            ` @keyframes scan-line {
+                0% {
+                    top: 4px;
+                    opacity: 1;
+                }
+
+                50% {
+                    top: calc(100% - 4px);
+                    opacity: 1;
+                }
+
+                100% {
+                    top: 4px;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes blink-dot {
+
+                0%,
+                100% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 0.2;
+                }
+            }
+
+            @keyframes emergency-glow {
+
+                0%,
+                100% {
+                    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+                }
+
+                50% {
+                    box-shadow: 0 0 0 6px rgba(220, 38, 38, 0);
+                }
+            }
+
+            .emergency-badge {
+                animation: emergency-glow 1.8s ease-in-out infinite;
+            }
+
+            .live-dot {
+                animation: blink-dot 1.2s ease-in-out infinite;
+            }
+
+            .qr-scan-line {
+                position: absolute;
+                left: 6px;
+                right: 6px;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, #ef4444, transparent);
+                animation: scan-line 2s linear infinite;
+            }
+
+            /* Social icon buttons — NO background, NO border */
+            .social-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: none;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+                transition: transform 0.2s ease, filter 0.2s ease;
+            }
+
+            .social-btn:hover {
+                transform: scale(1.12);
+                filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.25));
+            }
+
+            .social-btn img {
+                width: 44px;
+                height: 44px;
+                object-fit: contain;
+                border-radius: 10px;
+                display: block;
+            }
+
+            `
+        }
+    </style>
+
+    <div className="w-full bg-blue-50 border-b border-blue-100">
+        {/*
+        Full-width container with no extra horizontal padding
+        so the logo sits at the very left edge (only the page's
+        root padding / margin keeps it off the viewport edge).
+        justify-between spreads the five sections evenly.
+        */}
+        <div className="w-full flex flex-wrap lg:flex-nowrap items-center justify-between px-4 py-4 gap-6">
+
+            {/* ── 1. Logo & Name — pushed to the far left ── */}
+            <div className="flex items-center gap-3 flex-shrink-0">
+                <div className="w-20 h-20 rounded-full overflow-hidden border border-gray-200 shadow-md flex-shrink-0">
+                    <img className="w-full h-full object-cover" src={clinicLogo} alt="Clinic Logo" />
+                </div>
+                <div>
+                    <h1 className="text-xl md:text-2xl font-extrabold text-public-secondary leading-tight">
+                        {t("header.clinic_name")}{" "}
+                        <span className="text-public-primary">{t("header.clinic_subname")}</span>
+                    </h1>
+                    <p className="text-sm text-public-secondary font-medium">
+                        {t("header.clinic_location")}
+                    </p>
+                </div>
+            </div>
+
+            {/* ── 2. Visiting Hours ── */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+                <Clock className="w-5 h-5 text-public-primary flex-shrink-0" />
+                <div>
+                    <p className="text-xs text-muted-foreground">{t("header.visiting_hours")}</p>
+                    <p className="text-sm font-semibold text-foreground">{t("header.hours_value")}</p>
+                </div>
+            </div>
+
+            {/* ── 3. Appointment Number ── */}
+            {/* <div className="flex items-center gap-2 flex-shrink-0">
+                <Phone className="w-5 h-5 text-public-primary flex-shrink-0" />
+                <div>
+                    <p className="text-xs text-muted-foreground">{t("header.make_appointment")}</p>
+                    <p className="text-base font-extrabold text-public-primary tracking-wide">
+                        074474 45121
+                    </p>
+                </div>
+            </div> */}
+
+            {/* ── 4. Emergency Number ── */}
+            <div className="flex-shrink-0">
+                <div
+                    className="emergency-badge flex items-center gap-2 bg-red-50 border border-red-300 rounded-lg px-3 py-2">
+                    <span className="live-dot w-2.5 h-2.5 rounded-full bg-red-500 flex-shrink-0" />
+                    <div>
+                        <p
+                            className="text-[10px] font-semibold text-red-500 uppercase tracking-widest leading-none mb-0.5">
+                            For Appointment & Emergency
+                        </p>
+                        <p className="text-base font-extrabold text-red-600 tracking-wide">
+                            +91 744-744-5121
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* ── 5. Social Icons + QR ── */}
+            <div className="flex items-center gap-4 flex-shrink-0">
+
+                {/* Facebook — raw icon, no background */}
+
+                <a href="https://www.facebook.com/p/Dr-Shewales-Sai-Heart-Maternity-Care-100064275300587/"
+                    target="_blank" rel="noopener noreferrer" className="social-btn" aria-label="Facebook">
+                    <img src={facebookIcon} alt="Facebook" />
+                </a>
+
+
+
+                {/* Instagram — raw icon, no background */}
+                <a href="https://www.instagram.com/saiheartcaresolapur/" target="_blank" rel="noopener noreferrer"
+                    className="social-btn" aria-label="Instagram">
+                    <img src={instagramIcon} alt="Instagram" />
+                </a>
+
+
+                {/* {⭐ Rate Us} */}
+                <a href="https://www.google.com/search?sca_esv=e7687de8d1b3fbf8&rlz=1C1JJTC_enIN1113IN1113&sxsrf=ANbL-n5DHNhKWfh8qLRKGbEiKf7j_H3xyw:1774929590773&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qORE9vJlCHojPZZozkvgwp1qL6c4fdhtrp9cxitJJ_fzPAizSyXtdve8Oz9RX6jfUyYCRF7z9lkHS5AGibmQFE5aLN6fcsWMJ_TszY6d-GoQLOR_vEg6pqgTT9wHWaJU6QQbvzi4%3D&q=Dr+Shewale%5C%27s+Sai+Heart+%26+Maternity+Care+Reviews&sa=X&ved=2ahUKEwiTnon-n8mTAxVVTGwGHR_3EWsQ0bkNegQINxAF&biw=1494&bih=811#lrd=0x3bc5da77cd8ed7d3:0xf42da816260d47f4,3,,,,"
+                    target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 group"
+                    aria-label="Rate Us">
+                    {/* Star Icon */}
+                    <div className="w-10 h-10 flex items-center justify-center">
+                        <span className="text-yellow-400 text-2xl group-hover:scale-110 transition">
+                            ⭐
+                        </span>
+                        {/*
+                        <Star className="w-6 h-6 text-yellow-400 group-hover:scale-110 transition" /> */}
+                    </div>
+
+                    {/* Text */}
+                    <span className="text-[10px] font-semibold text-public-secondary leading-tight">
+                        Rate Us
+                    </span>
+                </a>
+
+
+
+
+                {/* Animated Location QR */}
+                <div className="hidden md:flex flex-col items-center gap-1">
+                    <div className="relative w-16 h-16 border-2 border-dashed border-public-primary rounded-md overflow-hidden shadow-sm"
+                        style={{ background: "white" }}>
+                        <img src={qrCode} alt="Location QR Code" className="w-full h-full object-contain" />
+                        <div className="qr-scan-line" />
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-public-primary flex-shrink-0" />
+                        <span className="text-[10px] font-semibold text-public-secondary leading-tight">
+                            Scan for Location
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</>
+);
+};
+
+export default MainHeader;

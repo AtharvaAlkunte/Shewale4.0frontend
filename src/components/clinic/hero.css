@@ -1,0 +1,149 @@
+/* Hero Section Styles */
+.hero-section {
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-swiper {
+  width: 100%;
+  height: 85vh; /* Desktop height */
+}
+
+/* Slide Content */
+.slide-content {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dark Overlay with Gradient */
+.slide-overlay {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+/* Text Container */
+.slide-text-container {
+  max-width: 800px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.slide-heading {
+  color: #ffffff;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.slide-subheading {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 40px;
+}
+
+/* CTA Button */
+.slide-cta-button {
+  background-color: #e10600;
+  color: #ffffff;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.slide-cta-button:hover {
+  background-color: #b30500;
+  transform: translateY(-2px);
+}
+
+.slide-cta-button:active {
+  transform: translateY(0);
+}
+
+/* Navigation & Pagination Customization */
+.hero-swiper .swiper-button-next,
+.hero-swiper .swiper-button-prev {
+  color: #ffffff;
+  transition: opacity 0.3s ease;
+}
+
+.hero-swiper .swiper-button-next:after,
+.hero-swiper .swiper-button-prev:after {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.hero-swiper .swiper-pagination-bullet {
+  background: #ffffff;
+  opacity: 0.5;
+  width: 12px;
+  height: 12px;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  background: #e10600;
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hero-swiper {
+    height: 60vh; /* Mobile height */
+  }
+
+  .slide-heading {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
+  .slide-subheading {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .slide-cta-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+  
+  .hero-swiper .swiper-button-next,
+  .hero-swiper .swiper-button-prev {
+    display: none; /* Hide arrows on small screens for cleaner look */
+  }
+}

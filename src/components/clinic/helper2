@@ -1,0 +1,171 @@
+import React from "react";
+import { Clock, Phone, MapPin, Star } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { QRCodeSVG } from "qrcode.react"; // ✅ IMPORT FIXED & UNCOMMENTED
+
+import clinicLogo from "../../assets/Dr.Sunil Shewale logo.jpeg";
+import facebookIcon from "../../assets/facebook.png.jpg";
+import instagramIcon from "../../assets/instagram.png.jpg";
+import qrCode from "../../assets/qr-code.png.png";
+import qrCode2 from "../../assets/qr-code2.png.png";
+
+const MainHeader: React.FC = () => {
+    const { t } = useTranslation();
+
+    const reviewLink =
+        "https://www.google.com/search?q=Dr+Shewale%27s+Sai+Heart+%26+Maternity+Care+Reviews";
+
+    return (
+        <>
+        <style>{`
+        @keyframes scan-line {
+          0%   { top: 4px; opacity: 1; }
+          50%  { top: calc(100% - 4px); opacity: 1; }
+          100% { top: 4px; opacity: 1; }
+        }
+        @keyframes blink-dot {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.2; }
+        }
+        @keyframes emergency-glow {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+          50% { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+        }
+
+        .emergency-badge { animation: emergency-glow 1.8s ease-in-out infinite; }
+        .live-dot { animation: blink-dot 1.2s ease-in-out infinite; }
+
+        .qr-scan-line {
+          position: absolute;
+          left: 6px; right: 6px;
+          height: 2px;
+          background: currentColor;
+          animation: scan-line 2s linear infinite;
+        }
+
+        .social-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          transition: transform 0.2s ease, filter 0.2s ease;
+        }
+        .social-btn:hover {
+          transform: scale(1.12);
+          filter: drop-shadow(0 3px 6px rgba(0,0,0,0.25));
+        }
+        .social-btn img {
+          width: 44px;
+          height: 44px;
+          object-fit: contain;
+          border-radius: 10px;
+          display: block;
+        }
+      `}</style>
+
+    < div className = "w-full bg-blue-50 border-b border-blue-100" >
+        <div className="w-full flex flex-wrap lg:flex-nowrap items-center justify-between px-4 py-4 gap-6" >
+
+            {/* 1. Logo & Name */ }
+            < div className = "flex items-center gap-3 flex-shrink-0" >
+                <div className="w-20 h-20 rounded-full overflow-hidden border border-gray-200 shadow-md flex-shrink-0" >
+                    <img className="w-full h-full object-cover" src = { clinicLogo } alt = "Clinic Logo" />
+                        </div>
+                        < div >
+                        <h1 className="text-xl md:text-2xl font-extrabold text-public-secondary leading-tight" >
+                            { t("header.clinic_name") }{ " " }
+<span className="text-public-primary" > { t("header.clinic_subname") } </span>
+    </h1>
+    < p className = "text-sm text-public-secondary font-medium" >
+        { t("header.clinic_location") }
+        </p>
+        </div>
+        </div>
+
+{/* 2. Visiting Hours */ }
+<div className="flex items-center gap-2 flex-shrink-0" >
+    <Clock className="w-5 h-5 text-public-primary flex-shrink-0" />
+        <div>
+        <p className="text-xs text-muted-foreground" > { t("header.visiting_hours") } </p>
+            < p className = "text-sm font-semibold text-foreground" > { t("header.hours_value") } </p>
+                </div>
+                </div>
+
+{/* 3. Appointment Number */ }
+<div className="flex items-center gap-2 flex-shrink-0" >
+    <Phone className="w-5 h-5 text-public-primary flex-shrink-0" />
+        <div>
+        <p className="text-xs text-muted-foreground" > { t("header.make_appointment") } </p>
+            < p className = "text-base font-extrabold text-public-primary tracking-wide" >
+                074474 45121
+    </p>
+    </div>
+    </div>
+
+{/* 4. Emergency Number */ }
+<div className="flex-shrink-0" >
+    <div className="emergency-badge flex items-center gap-2 bg-red-50 border border-red-300 rounded-lg px-3 py-2" >
+        <span className="live-dot w-2.5 h-2.5 rounded-full bg-red-500 flex-shrink-0" />
+            <div>
+            <p className="text-[10px] font-semibold text-red-500 uppercase tracking-widest leading-none mb-0.5" >
+                Emergency
+                </p>
+                < p className = "text-base font-extrabold text-red-600 tracking-wide" >
+                    +91 98765 43210
+                        </p>
+                        </div>
+                        </div>
+                        </div>
+
+{/* 5. Social Icons + Dual QRs */ }
+<div className="flex items-center gap-4 flex-shrink-0" >
+    <a href="https://www.facebook.com/..." target = "_blank" rel = "noopener noreferrer" className = "social-btn" >
+        <img src={ facebookIcon } alt = "Facebook" />
+            </a>
+
+            < a href = "https://www.instagram.com/..." target = "_blank" rel = "noopener noreferrer" className = "social-btn" >
+                <img src={ instagramIcon } alt = "Instagram" />
+                    </a>
+
+                    < div className = "hidden md:block w-[1px] h-12 bg-gray-300 mx-2" />
+
+                        <div className="hidden md:flex items-center gap-4" >
+
+                            {/* Blue QR: Find Us (STATIC IMAGE) */ }
+                            < div className = "flex flex-col items-center gap-1" >
+                                <div className="relative w-16 h-16 border-2 border-dashed border-blue-500 rounded-md overflow-hidden bg-white shadow-sm p-1" >
+                                    <img src={ qrCode } alt = "Location QR" className = "w-full h-full object-contain" />
+                                        <div className="qr-scan-line text-blue-500" />
+                                            </div>
+                                            < div className = "flex items-center gap-1" >
+                                                <MapPin className="w-3 h-3 text-blue-600" />
+                                                    <span className="text-[10px] font-bold text-blue-700 uppercase" > Find Us </span>
+                                                        </div>
+                                                        </div>
+
+{/* Green QR: Rate Us (DYNAMIC) */ }
+<div className="flex flex-col items-center gap-1" >
+    <div className="relative w-16 h-16 border-2 border-dashed border-green-500 rounded-md overflow-hidden bg-white shadow-sm p-1" >
+        {/* ✅ FIXED: Using QRCodeSVG which matches the import */ }
+{/* <QRCodeSVG value={reviewLink} size={56} /> */ }
+<img src={ qrCode2 } alt = "Rate Us QR" className = "w-full h-full object-contain" />
+    <div className="qr-scan-line text-green-500" />
+        </div>
+        < div className = "flex items-center gap-1" >
+            <Star className="w-3 h-3 text-green-600" />
+                <span className="text-[10px] font-bold text-green-700 uppercase" > Rate Us </span>
+                    </div>
+                    </div>
+
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </>
+  );
+};
+
+export default MainHeader;

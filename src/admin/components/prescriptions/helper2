@@ -1,0 +1,1528 @@
+// import React, { useState, useEffect } from 'react';
+// import { Search, Loader2, ArrowRight } from 'lucide-react';
+// import axios from 'axios';
+// import { toast } from 'sonner';
+
+// const PatientSearch = ({ onSelectPatient }) => {
+//     const [query, setQuery] = useState('');
+//     const [results, setResults] = useState([]);
+//     const [loading, setLoading] = useState(false);
+
+//     useEffect(() => {
+//         const fetchPatients = async () => {
+//             if (query.trim().length < 2) {
+//                 setResults([]);
+//                 return;
+//             }
+
+//             setLoading(true);
+//             try {
+//                 const res = await axios.get(`http://localhost:5000/api/patients/search?query=${query}`);
+//                 setResults(res.data.data);
+//             } catch (error) {
+//                 console.error("Error searching patients:", error);
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+
+//         const timer = setTimeout(() => {
+//             fetchPatients();
+//         }, 300); // 300ms debounce
+
+//         return () => clearTimeout(timer);
+//     }, [query]);
+
+//     return (
+//         <div className="relative overflow-hidden bg-white/70 backdrop-blur-xl p-8 rounded-2xl shadow-xl shadow-blue-900/5 mb-8 border border-white">
+//             {/* Subtle Gradient Orb Background */}
+//             <div className="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+
+//             <h2 className="text-2xl font-bold mb-6 text-gray-800 tracking-tight">Locate Patient Record</h2>
+//             <div className="relative w-full max-w-2xl transform transition-all group">
+//                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+//                     <Search className={`transition-colors duration-300 ${query ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-500'}`} size={22} />
+//                 </div>
+//                 <input
+//                     type="text"
+//                     placeholder="Search by Name, Phone, or UHID (min 2 chars)..."
+//                     className="w-full pl-12 pr-12 py-4 bg-gray-50/50 border border-gray-200 rounded-xl text-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium placeholder:font-normal placeholder:text-gray-400 shadow-inner"
+//                     value={query}
+//                     onChange={(e) => setQuery(e.target.value)}
+//                 />
+
+//                 {loading && (
+//                     <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+//                         <Loader2 className="text-blue-500 animate-spin" size={20} />
+//                     </div>
+//                 )}
+//             </div>
+
+//             <div className="transition-all duration-300 ease-in-out origin-top w-full max-w-2xl">
+//                 {results.length > 0 && (
+//                     <div className="mt-4 border border-gray-100 rounded-xl overflow-hidden bg-white/90 backdrop-blur shadow-2xl shadow-blue-900/10">
+//                         {results.map((patient, idx) => (
+//                             <div
+//                                 key={patient._id}
+//                                 className={`p-4 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50/30 cursor-pointer flex justify-between items-center transition-all group/item ${idx !== results.length - 1 ? 'border-b border-gray-100' : ''}`}
+//                                 onClick={() => {
+//                                     onSelectPatient(patient);
+//                                     setQuery('');
+//                                     setResults([]);
+//                                 }}
+//                             >
+//                                 <div className="flex flex-col">
+//                                     <h4 className="font-semibold text-gray-900 text-lg group-hover/item:text-blue-700 transition-colors">{patient.name}</h4>
+//                                     <div className="flex gap-3 text-sm font-medium text-gray-500 mt-1">
+//                                         <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span> {patient.phone || 'No phone'}</span>
+//                                         <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-purple-400 inline-block"></span> {patient.uhid || 'No UHID'}</span>
+//                                     </div>
+//                                 </div>
+//                                 <button className="opacity-0 group-hover/item:opacity-100 transform translate-x-2 group-hover/item:translate-x-0 transition-all w-10 h-10 rounded-full bg-blue-600 text-white flex justify-center items-center shadow-md">
+//                                     <ArrowRight size={18} />
+//                                 </button>
+//                             </div>
+//                         ))}
+//                     </div>
+//                 )}
+
+//                 {query.trim().length >= 2 && !loading && results.length === 0 && (
+//                     <div className="mt-4 p-5 bg-orange-50/50 border border-orange-100 rounded-xl text-center max-w-2xl">
+//                         <div className="text-orange-800 font-medium">No patients found matching "{query}"</div>
+//                         <div className="text-orange-600/80 text-sm mt-1">Please double-check the spelling or add a new patient through the registry.</div>
+//                     </div>
+//                 )}
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default PatientSearch;
+
+// PatientSearch.jsx
+
+// import React, { useState } from 'react';
+// import { ArrowLeft, Save, Plus, Trash2 } from 'lucide-react';
+
+// const PrescriptionForm = ({ patient, onBack, onSave, loading }) => {
+//     const [formData, setFormData] = useState({
+//         vitals: { bodyWeight: patient.weight || '' },
+//         notes: '',
+//         diagnosis: '',
+//         medications: [{ name: '', frequency: '', duration: '', remarks: '' }],
+//         investigations: '',
+//         advice: [''],
+//         followUpDate: ''
+//     });
+
+//     const handleInputChange = (e, field, subfield = null) => {
+//         if (subfield) {
+//             setFormData(prev => ({
+//                 ...prev,
+//                 [field]: { ...prev[field], [subfield]: e.target.value }
+//             }));
+//         } else {
+//             setFormData(prev => ({ ...prev, [field]: e.target.value }));
+//         }
+//     };
+
+//     const handleMedicationChange = (index, field, value) => {
+//         const newMeds = [...formData.medications];
+//         newMeds[index][field] = value;
+//         setFormData({ ...formData, medications: newMeds });
+//     };
+
+//     const addMedication = () => {
+//         setFormData({
+//             ...formData,
+//             medications: [...formData.medications, { name: '', frequency: '', duration: '', remarks: '' }]
+//         });
+//     };
+
+//     const removeMedication = (index) => {
+//         const newMeds = formData.medications.filter((_, i) => i !== index);
+//         setFormData({ ...formData, medications: newMeds });
+//     };
+
+//     const handleAdviceChange = (index, value) => {
+//         const newAdvice = [...formData.advice];
+//         newAdvice[index] = value;
+//         setFormData({ ...formData, advice: newAdvice });
+//     };
+
+//     const addAdvice = () => {
+//         setFormData({ ...formData, advice: [...formData.advice, ''] });
+//     };
+
+//     const removeAdvice = (index) => {
+//         const newAdvice = formData.advice.filter((_, i) => i !== index);
+//         setFormData({ ...formData, advice: newAdvice });
+//     };
+
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+//         onSave(formData);
+//     };
+
+//     return (
+//         <form onSubmit={handleSubmit} className="space-y-6">
+//             <div className="flex items-center justify-between mb-4">
+//                 <button
+//                     type="button"
+//                     onClick={onBack}
+//                     className="flex items-center text-gray-500 hover:text-gray-700 transition"
+//                 >
+//                     <ArrowLeft size={18} className="mr-1" /> Back
+//                 </button>
+//                 <div className="text-xl font-bold text-[#1a365d]">New Prescription for {patient.name}</div>
+//                 <button
+//                     type="submit"
+//                     disabled={loading}
+//                     className="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition disabled:bg-blue-400"
+//                 >
+//                     <Save size={18} className="mr-2" /> {loading ? 'Saving...' : 'Save & Preview'}
+//                 </button>
+//             </div>
+
+//             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//                 {/* Vitals & Notes */}
+//                 <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+//                     <h3 className="font-semibold text-gray-800 border-b pb-2 mb-4">Clinical Details</h3>
+//                     <div className="space-y-4">
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700 mb-1">Body Weight (Kgs)</label>
+//                             <input
+//                                 type="text"
+//                                 value={formData.vitals.bodyWeight}
+//                                 onChange={(e) => handleInputChange(e, 'vitals', 'bodyWeight')}
+//                                 className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+//                                 placeholder="E.g. 61"
+//                             />
+//                         </div>
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700 mb-1">Notes (BP, HR, etc.)</label>
+//                             <textarea
+//                                 value={formData.notes}
+//                                 onChange={(e) => handleInputChange(e, 'notes')}
+//                                 className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 h-24"
+//                                 placeholder="NSR(BPM)-100&#10;BP(mm/Hg)-130/80"
+//                             />
+//                         </div>
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700 mb-1">Diagnosis</label>
+//                             <input
+//                                 type="text"
+//                                 value={formData.diagnosis}
+//                                 onChange={(e) => handleInputChange(e, 'diagnosis')}
+//                                 className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+//                                 placeholder="AWMI | PCI"
+//                             />
+//                         </div>
+//                     </div>
+//                 </div>
+
+//                 {/* Investigations & Follow Up */}
+//                 <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 space-y-6">
+//                     <div>
+//                         <h3 className="font-semibold text-gray-800 border-b pb-2 mb-4">Tests & Follow-up</h3>
+//                         <label className="block text-sm font-medium text-gray-700 mb-1">Advised Investigations</label>
+//                         <textarea
+//                             value={formData.investigations}
+//                             onChange={(e) => handleInputChange(e, 'investigations')}
+//                             className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+//                             placeholder="CBC, UREA, CREAT, LIPID PROFILE..."
+//                         />
+//                     </div>
+//                     <div>
+//                         <div className="flex justify-between items-center mb-1">
+//                             <label className="block text-sm font-medium text-gray-700">Advice</label>
+//                             <button type="button" onClick={addAdvice} className="text-blue-600 text-xs flex items-center"><Plus size={14} /> Add</button>
+//                         </div>
+//                         {formData.advice.map((adv, index) => (
+//                             <div key={index} className="flex gap-2 mb-2">
+//                                 <input
+//                                     type="text"
+//                                     value={adv}
+//                                     onChange={(e) => handleAdviceChange(index, e.target.value)}
+//                                     className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm"
+//                                     placeholder="वैयक्तिक स्वच्छता"
+//                                 />
+//                                 {formData.advice.length > 1 && (
+//                                     <button type="button" onClick={() => removeAdvice(index)} className="text-red-500 hover:text-red-700"><Trash2 size={16} /></button>
+//                                 )}
+//                             </div>
+//                         ))}
+//                     </div>
+//                     <div>
+//                         <label className="block text-sm font-medium text-gray-700 mb-1">Follow-up Date</label>
+//                         <input
+//                             type="date"
+//                             value={formData.followUpDate}
+//                             onChange={(e) => handleInputChange(e, 'followUpDate')}
+//                             className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"
+//                         />
+//                     </div>
+//                 </div>
+//             </div>
+
+//             {/* Medications */}
+//             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+//                 <div className="flex justify-between items-center border-b pb-2 mb-4">
+//                     <h3 className="font-semibold text-gray-800">Medications</h3>
+//                     <button
+//                         type="button"
+//                         onClick={addMedication}
+//                         className="flex items-center text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-1.5 rounded transition"
+//                     >
+//                         <Plus size={16} className="mr-1" /> Add Medication
+//                     </button>
+//                 </div>
+
+//                 <div className="overflow-x-auto">
+//                     <table className="w-full text-left border-collapse">
+//                         <thead>
+//                             <tr className="bg-gray-50 text-gray-700 text-sm">
+//                                 <th className="p-2 border font-medium w-1/3">Medications</th>
+//                                 <th className="p-2 border font-medium w-32">Frequency</th>
+//                                 <th className="p-2 border font-medium w-32">Duration</th>
+//                                 <th className="p-2 border font-medium">Remarks</th>
+//                                 <th className="p-2 border font-medium w-16 text-center">Action</th>
+//                             </tr>
+//                         </thead>
+//                         <tbody>
+//                             {formData.medications.map((med, index) => (
+//                                 <tr key={index} className="border-b">
+//                                     <td className="p-2 border">
+//                                         <textarea
+//                                             value={med.name}
+//                                             onChange={(e) => handleMedicationChange(index, 'name', e.target.value)}
+//                                             className="w-full p-1 border-gray-300 rounded focus:ring-blue-500 text-sm h-12"
+//                                             placeholder="Cap Rosumac ASP 20mg/75mg"
+//                                             required
+//                                         />
+//                                     </td>
+//                                     <td className="p-2 border">
+//                                         <input
+//                                             type="text"
+//                                             value={med.frequency}
+//                                             onChange={(e) => handleMedicationChange(index, 'frequency', e.target.value)}
+//                                             className="w-full p-1 border-gray-300 rounded focus:ring-blue-500 text-sm"
+//                                             placeholder="0-0-1"
+//                                             required
+//                                         />
+//                                     </td>
+//                                     <td className="p-2 border">
+//                                         <input
+//                                             type="text"
+//                                             value={med.duration}
+//                                             onChange={(e) => handleMedicationChange(index, 'duration', e.target.value)}
+//                                             className="w-full p-1 border-gray-300 rounded focus:ring-blue-500 text-sm"
+//                                             placeholder="1 Month"
+//                                             required
+//                                         />
+//                                     </td>
+//                                     <td className="p-2 border">
+//                                         <input
+//                                             type="text"
+//                                             value={med.remarks}
+//                                             onChange={(e) => handleMedicationChange(index, 'remarks', e.target.value)}
+//                                             className="w-full p-1 border-gray-300 rounded focus:ring-blue-500 text-sm"
+//                                             placeholder="रात्री, 1 महिन्यासाठी."
+//                                         />
+//                                     </td>
+//                                     <td className="p-2 border text-center">
+//                                         <button
+//                                             type="button"
+//                                             onClick={() => removeMedication(index)}
+//                                             disabled={formData.medications.length === 1}
+//                                             className="text-red-500 hover:text-red-700 disabled:text-gray-300 mx-auto"
+//                                         >
+//                                             <Trash2 size={18} />
+//                                         </button>
+//                                     </td>
+//                                 </tr>
+//                             ))}
+//                         </tbody>
+//                     </table>
+//                 </div>
+//             </div>
+//         </form>
+//     );
+// };
+
+// export default PrescriptionForm;
+
+// PrescriptionForm.jsx
+
+
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { differenceInYears } from 'date-fns';
+// import { FileText, Plus, ArrowLeft, Loader2, Calendar } from 'lucide-react';
+// import { toast } from 'sonner';
+
+// const PatientHistory = ({ patient, onBack, onCreateNew, onViewPrescription }) => {
+//     const [prescriptions, setPrescriptions] = useState([]);
+//     const [loading, setLoading] = useState(true);
+
+//     const calculatedAge = patient.dob ? differenceInYears(new Date(), new Date(patient.dob)) : 'N/A';
+
+//     useEffect(() => {
+//         const fetchHistory = async () => {
+//             try {
+//                 const res = await axios.get(`http://localhost:5000/api/prescriptions/patient/${patient._id}`);
+//                 setPrescriptions(res.data.data);
+//             } catch (error) {
+//                 console.error("Error fetching patient history", error);
+//                 toast.error("Failed to load prescription history");
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+
+//         if (patient._id) {
+//             fetchHistory();
+//         }
+//     }, [patient._id]);
+
+//     return (
+//         <div className="space-y-6">
+//             <div className="flex items-center justify-between mb-2">
+//                 <button
+//                     onClick={onBack}
+//                     className="flex items-center text-gray-500 hover:text-gray-700 transition"
+//                 >
+//                     <ArrowLeft size={18} className="mr-1" /> Back to Search
+//                 </button>
+//                 <button
+//                     onClick={onCreateNew}
+//                     className="flex items-center bg-[#ea354c] hover:bg-[#d62d41] text-white px-4 py-2 rounded-lg font-medium transition"
+//                 >
+//                     <Plus size={18} className="mr-2" /> New Prescription
+//                 </button>
+//             </div>
+
+//             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+//                 <div>
+//                     <h2 className="text-2xl font-bold text-[#1a365d] mb-1">{patient.name}</h2>
+//                     <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600 mt-2">
+//                         <span><strong>Age:</strong> {calculatedAge}</span>
+//                         <span><strong>Gender:</strong> {patient.gender || 'N/A'}</span>
+//                         <span><strong>Phone:</strong> {patient.phone || 'N/A'}</span>
+//                         {patient.uhid && <span><strong>UHID:</strong> {patient.uhid}</span>}
+//                     </div>
+//                 </div>
+//             </div>
+
+//             <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+//                 <div className="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+//                     <h3 className="text-lg font-semibold text-gray-800">Prescription History</h3>
+//                     <span className="text-xs font-semibold px-2 py-1 bg-blue-100 text-blue-700 rounded-full">{prescriptions.length} Records</span>
+//                 </div>
+
+//                 {loading ? (
+//                     <div className="p-8 flex justify-center items-center">
+//                         <Loader2 className="animate-spin text-gray-400" size={32} />
+//                     </div>
+//                 ) : prescriptions.length > 0 ? (
+//                     <div className="divide-y divide-gray-100">
+//                         {prescriptions.map((presc) => (
+//                             <div key={presc._id} className="p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center hover:bg-gray-50 transition border-l-4 border-transparent hover:border-blue-500">
+//                                 <div className="mb-3 sm:mb-0">
+//                                     <div className="flex items-center text-gray-800 font-medium mb-1">
+//                                         <Calendar size={16} className="mr-2 text-gray-400" />
+//                                         {new Date(presc.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+//                                     </div>
+//                                     <p className="text-sm text-gray-500 line-clamp-1 max-w-lg">
+//                                         {presc.diagnosis || 'No specific diagnosis listed'}
+//                                     </p>
+//                                     <div className="mt-1 text-xs text-gray-400">
+//                                         {presc.medications?.length || 0} Medications
+//                                     </div>
+//                                 </div>
+//                                 <button
+//                                     onClick={() => onViewPrescription(presc)}
+//                                     className="flex items-center text-[#ea354c] hover:bg-red-50 px-3 py-1.5 rounded-md text-sm font-medium transition"
+//                                 >
+//                                     <FileText size={16} className="mr-1.5" /> View / Print
+//                                 </button>
+//                             </div>
+//                         ))}
+//                     </div>
+//                 ) : (
+//                     <div className="p-8 text-center text-gray-500">
+//                         <div className="inline-flex justify-center items-center w-12 h-12 bg-gray-100 rounded-full mb-3">
+//                             <FileText size={24} className="text-gray-400" />
+//                         </div>
+//                         <p>No prescriptions found for this patient.</p>
+//                         <p className="text-sm mt-1">Click "New Prescription" to add one.</p>
+//                     </div>
+//                 )}
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default PatientHistory;
+
+// PatientHistory.jsx
+
+// import React, { forwardRef } from 'react';
+// import { differenceInYears } from 'date-fns';
+
+// const PrescriptionTemplate = forwardRef(({ prescription, patient }, ref) => {
+//     if (!prescription || !patient) return null;
+
+//     // Use current date or given date
+//     const printDate = new Date(prescription.date || Date.now());
+
+//     // Calculate Age exactly at the time of printing
+//     const calculatedAge = patient.dob ? differenceInYears(printDate, new Date(patient.dob)) : 'N/A';
+
+//     return (
+//         <div ref={ref} className="bg-white p-10 w-[210mm] min-h-[297mm] mx-auto text-black font-sans leading-tight shadow-lg" style={{ boxSizing: 'border-box' }}>
+//             {/* Header section (Mock logo + Clinic details) */}
+//             <div className="flex justify-between items-start border-b-2 border-gray-800 pb-4 mb-4">
+//                 <div className="flex items-center gap-4">
+//                     {/* Placeholder for Logo */}
+//                     <div className="text-red-700 text-5xl font-serif font-bold tracking-tighter">
+//                         Sai <span className="text-gray-900 font-light">Heart Care</span>
+//                     </div>
+//                 </div>
+//                 <div className="text-right">
+//                     <h1 className="text-2xl font-bold text-gray-800">Dr. Sunil Shewale</h1>
+//                     <p className="text-sm text-gray-600">Interventional Cardiologist</p>
+//                     <p className="text-xs text-gray-800 font-semibold mt-2">Mob: +91 94220 00000</p>
+//                 </div>
+//             </div>
+
+//             {/* Patient Info Bar */}
+//             <div className="flex justify-between items-end mb-6">
+//                 <div className="text-sm text-gray-800 italic space-y-1">
+//                     <p>
+//                         <span className="font-bold">{patient.name}</span>, {patient.gender || 'Male'}, {calculatedAge} year(s), {patient.phone ? `+91 ${patient.phone.replace(/(\d{5})(\d{5})/, "$1 $2")}` : ""}
+//                     </p>
+//                     <p>
+//                         <span className="font-semibold text-xs">UHID:</span> {patient.uhid || 'N/A'},
+//                         <span className="font-semibold text-xs ml-2">City:</span> {patient.city || 'PUNE'},
+//                         <span className="font-semibold text-xs ml-2">Patient Address:</span> {patient.address || 'N/A'}
+//                     </p>
+//                 </div>
+//                 <div className="text-sm font-semibold">
+//                     {printDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}, {printDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
+//                 </div>
+//             </div>
+
+//             {/* Vitals & Notes */}
+//             <div className="mb-4 text-sm">
+//                 <p><span className="font-bold text-gray-700">VITALS: </span>BODY WEIGHT - {prescription.vitals?.bodyWeight || 'N/A'}Kgs</p>
+
+//                 {prescription.notes && (
+//                     <div className="mt-4">
+//                         <p className="font-bold text-gray-700 mb-1">NOTES:</p>
+//                         <pre className="whitespace-pre-wrap font-sans text-sm ml-2">{prescription.notes}</pre>
+//                     </div>
+//                 )}
+
+//                 {prescription.diagnosis && (
+//                     <p className="mt-4"><span className="font-bold text-gray-700">DIAGNOSIS: </span>{prescription.diagnosis}</p>
+//                 )}
+//             </div>
+
+//             {/* Medications Table */}
+//             {prescription.medications && prescription.medications.length > 0 && (
+//                 <div className="mt-6">
+//                     <table className="w-full border-collapse border border-gray-400 text-sm">
+//                         <thead className="bg-gray-100 italic">
+//                             <tr>
+//                                 <th className="border border-gray-400 p-2 text-left w-10"></th>
+//                                 <th className="border border-gray-400 p-2 text-left">Medications</th>
+//                                 <th className="border border-gray-400 p-2 text-center w-24">Frequency</th>
+//                                 <th className="border border-gray-400 p-2 text-center w-24">Duration</th>
+//                                 <th className="border border-gray-400 p-2 text-left">Remarks</th>
+//                             </tr>
+//                         </thead>
+//                         <tbody>
+//                             {prescription.medications.map((med, index) => (
+//                                 <tr key={index}>
+//                                     <td className="border border-gray-400 p-2 text-center font-bold">{index + 1}</td>
+//                                     <td className="border border-gray-400 p-2">
+//                                         <pre className="whitespace-pre-wrap font-sans font-bold">{med.name}</pre>
+//                                     </td>
+//                                     <td className="border border-gray-400 p-2 text-center">{med.frequency}</td>
+//                                     <td className="border border-gray-400 p-2 text-center">{med.duration}</td>
+//                                     <td className="border border-gray-400 p-2">{med.remarks}</td>
+//                                 </tr>
+//                             ))}
+//                         </tbody>
+//                     </table>
+//                 </div>
+//             )}
+
+//             {/* Investigations, Advice, Follow up */}
+//             <div className="mt-6 text-sm space-y-4">
+//                 {prescription.investigations && (
+//                     <p><span className="font-bold text-gray-700 uppercase">Advised Investigations : </span><span className="font-semibold">{prescription.investigations}</span></p>
+//                 )}
+
+//                 {prescription.advice && prescription.advice.length > 0 && prescription.advice.some(a => a.trim() !== '') && (
+//                     <div>
+//                         <p className="font-bold text-gray-700 uppercase mb-1">Advice :</p>
+//                         <ul className="list-disc ml-6 space-y-1">
+//                             {prescription.advice.filter(a => a.trim() !== '').map((adv, i) => (
+//                                 <li key={i}>{adv}</li>
+//                             ))}
+//                         </ul>
+//                     </div>
+//                 )}
+
+//                 {prescription.followUpDate && (
+//                     <p><span className="font-bold text-gray-700 uppercase">Followup : </span>Visit on {new Date(prescription.followUpDate).toLocaleDateString('en-GB', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</p>
+//                 )}
+//             </div>
+
+//             {/* Footer */}
+//             <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end border-t border-gray-300 pt-4 text-xs text-gray-600">
+//                 <div>
+//                     <p className="font-semibold mb-1 text-gray-800">For Appointments, Call</p>
+//                     <p className="flex items-center gap-1"><span className="text-gray-800 text-sm">📞</span> +91 94220 00000</p>
+//                 </div>
+//                 <div className="text-right">
+//                     <p className="font-semibold text-gray-800">Sai Heart Care</p>
+//                     <p>Employment Chowk</p>
+//                     <p>Solapur</p>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// });
+
+// export default PrescriptionTemplate;
+
+
+// import React, { useState, useEffect, useRef } from 'react';
+// import { Save, Plus, Trash2, Pill, FlaskConical, HeartPulse, CalendarDays, ClipboardList, X, Search, Loader2 } from 'lucide-react';
+// import { toast } from 'sonner';
+
+// // ─── Inline premium styles ────────────────────────────────────────────────────
+// const styles = `
+//   @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+//   .pf-wrap {
+//     font-family: 'DM Sans', sans-serif;
+//   }
+
+//   /* ── Section card ── */
+//   .pf-card {
+//     background: #fff;
+//     border-radius: 16px;
+//     border: 1px solid rgba(0,0,0,0.06);
+//     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+//     overflow: hidden;
+//     margin-bottom: 20px;
+//     position: relative;
+//   }
+//   .pf-card::before {
+//     content: '';
+//     position: absolute;
+//     top: 0; left: 0; right: 0;
+//     height: 3px;
+//     background: var(--card-accent, linear-gradient(90deg, #1a2a4a, #c8102e));
+//   }
+//   .pf-card-header {
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     padding: 18px 22px 14px;
+//     border-bottom: 1px solid #f3f4f6;
+//     gap: 10px;
+//   }
+//   .pf-card-header-left {
+//     display: flex;
+//     align-items: center;
+//     gap: 10px;
+//   }
+//   .pf-card-icon {
+//     width: 34px;
+//     height: 34px;
+//     border-radius: 9px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     flex-shrink: 0;
+//   }
+//   .pf-card-label {
+//     font-size: 10px;
+//     font-weight: 700;
+//     letter-spacing: 0.2em;
+//     text-transform: uppercase;
+//     color: #c8102e;
+//     margin-bottom: 2px;
+//   }
+//   .pf-card-title {
+//     font-family: 'DM Serif Display', serif;
+//     font-size: 17px;
+//     color: #1a2a4a;
+//     font-weight: 400;
+//     margin: 0;
+//   }
+//   .pf-card-body {
+//     padding: 20px 22px;
+//   }
+
+//   /* ── Label & Input ── */
+//   .pf-label {
+//     display: block;
+//     font-size: 11px;
+//     font-weight: 700;
+//     color: #6b7280;
+//     text-transform: uppercase;
+//     letter-spacing: 0.08em;
+//     margin-bottom: 6px;
+//   }
+//   .pf-input {
+//     width: 100%;
+//     padding: 10px 14px;
+//     border: 1.5px solid #e5e7eb;
+//     border-radius: 10px;
+//     font-family: 'DM Sans', sans-serif;
+//     font-size: 13.5px;
+//     color: #1a2a4a;
+//     background: #fafafa;
+//     outline: none;
+//     transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+//     box-sizing: border-box;
+//   }
+//   .pf-input::placeholder { color: #b0b7c3; font-weight: 400; }
+//   .pf-input:focus {
+//     border-color: #c8102e;
+//     background: #fff;
+//     box-shadow: 0 0 0 3px rgba(200,16,46,0.08);
+//   }
+//   .pf-textarea {
+//     resize: vertical;
+//     min-height: 88px;
+//     line-height: 1.6;
+//   }
+
+//   /* ── Grid ── */
+//   .pf-grid-2 {
+//     display: grid;
+//     grid-template-columns: 1fr 1fr;
+//     gap: 20px;
+//   }
+//   @media (max-width: 768px) {
+//     .pf-grid-2 { grid-template-columns: 1fr; }
+//   }
+//   .pf-field { margin-bottom: 16px; }
+//   .pf-field:last-child { margin-bottom: 0; }
+
+//   /* ── Add button (small) ── */
+//   .pf-btn-add-sm {
+//     display: inline-flex;
+//     align-items: center;
+//     gap: 5px;
+//     font-size: 12px;
+//     font-weight: 600;
+//     color: #1a2a4a;
+//     background: #f0f4ff;
+//     border: 1px solid #e0e7ff;
+//     padding: 5px 12px;
+//     border-radius: 8px;
+//     cursor: pointer;
+//     transition: background 0.18s;
+//     font-family: 'DM Sans', sans-serif;
+//     white-space: nowrap;
+//   }
+//   .pf-btn-add-sm:hover { background: #e0e7ff; }
+
+//   /* ── Add medication button ── */
+//   .pf-btn-add-med {
+//     display: inline-flex;
+//     align-items: center;
+//     gap: 6px;
+//     font-size: 13px;
+//     font-weight: 600;
+//     color: #1a2a4a;
+//     background: #f0f4ff;
+//     border: 1.5px solid #e0e7ff;
+//     padding: 8px 16px;
+//     border-radius: 9px;
+//     cursor: pointer;
+//     transition: background 0.18s, transform 0.15s;
+//     font-family: 'DM Sans', sans-serif;
+//   }
+//   .pf-btn-add-med:hover { background: #e0e7ff; transform: translateY(-1px); }
+
+//   /* ── Save button ── */
+//   .pf-btn-save {
+//     display: inline-flex;
+//     align-items: center;
+//     gap: 8px;
+//     background: linear-gradient(135deg, #c8102e 0%, #e11d48 100%);
+//     color: white;
+//     padding: 11px 24px;
+//     border-radius: 10px;
+//     font-size: 14px;
+//     font-weight: 600;
+//     border: none;
+//     cursor: pointer;
+//     transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+//     box-shadow: 0 4px 14px rgba(200,16,46,0.28);
+//     font-family: 'DM Sans', sans-serif;
+//   }
+//   .pf-btn-save:hover:not(:disabled) {
+//     transform: translateY(-1px);
+//     box-shadow: 0 6px 20px rgba(200,16,46,0.36);
+//   }
+//   .pf-btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+//   /* ── Delete button ── */
+//   .pf-btn-del {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     width: 32px;
+//     height: 32px;
+//     border-radius: 8px;
+//     background: #fff1f2;
+//     color: #c8102e;
+//     border: none;
+//     cursor: pointer;
+//     transition: background 0.18s;
+//     flex-shrink: 0;
+//     font-family: 'DM Sans', sans-serif;
+//   }
+//   .pf-btn-del:hover:not(:disabled) { background: #ffe4e6; }
+//   .pf-btn-del:disabled { color: #d1d5db; background: #f9fafb; cursor: not-allowed; }
+
+//   /* ── Medications table ── */
+//   .pf-med-table {
+//     width: 100%;
+//     border-collapse: collapse;
+//     font-size: 13px;
+//   }
+//   .pf-med-table th {
+//     padding: 10px 12px;
+//     text-align: left;
+//     font-size: 10px;
+//     font-weight: 700;
+//     letter-spacing: 0.1em;
+//     text-transform: uppercase;
+//     color: #9ca3af;
+//     background: #f9fafb;
+//     border-bottom: 1.5px solid #f3f4f6;
+//     white-space: nowrap;
+//   }
+//   .pf-med-table td {
+//     padding: 10px 10px;
+//     border-bottom: 1px solid #f3f4f6;
+//     vertical-align: top;
+//   }
+//   .pf-med-table tbody tr:last-child td { border-bottom: none; }
+//   .pf-med-table tbody tr:hover td { background: #fafbff; }
+
+//   .pf-cell-input {
+//     width: 100%;
+//     padding: 8px 10px;
+//     border: 1.5px solid #e5e7eb;
+//     border-radius: 8px;
+//     font-family: 'DM Sans', sans-serif;
+//     font-size: 13px;
+//     color: #1a2a4a;
+//     background: #fafafa;
+//     outline: none;
+//     transition: border-color 0.2s, box-shadow 0.2s;
+//     box-sizing: border-box;
+//     resize: vertical;
+//   }
+//   .pf-cell-input::placeholder { color: #b0b7c3; font-size: 12px; }
+//   .pf-cell-input:focus {
+//     border-color: #c8102e;
+//     background: #fff;
+//     box-shadow: 0 0 0 3px rgba(200,16,46,0.08);
+//   }
+
+//   /* ── Advice row ── */
+//   .pf-advice-row {
+//     display: flex;
+//     align-items: center;
+//     gap: 8px;
+//     margin-bottom: 8px;
+//   }
+//   .pf-advice-num {
+//     width: 22px;
+//     height: 22px;
+//     border-radius: 6px;
+//     background: linear-gradient(135deg, #1a2a4a, #c8102e);
+//     color: white;
+//     font-size: 10px;
+//     font-weight: 700;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     flex-shrink: 0;
+//   }
+
+//   /* ── Form submit strip ── */
+//   .pf-submit-strip {
+//     display: flex;
+//     justify-content: flex-end;
+//     padding-top: 8px;
+//   }
+
+//   /* ── Spinner inside save ── */
+//   .pf-save-spinner {
+//     width: 16px;
+//     height: 16px;
+//     border: 2px solid rgba(255,255,255,0.35);
+//     border-top-color: white;
+//     border-radius: 50%;
+//     animation: pf-spin 0.7s linear infinite;
+//   }
+//   @keyframes pf-spin { to { transform: rotate(360deg); } }
+
+//   /* ── AutoComplete Dropdown ── */
+//   .pf-autocomplete-dropdown {
+//     position: absolute;
+//     top: 100%;
+//     left: 0;
+//     width: 100%;
+//     background: #fff;
+//     border: 1px solid #e5e7eb;
+//     border-radius: 8px;
+//     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+//     z-index: 50;
+//     max-height: 250px;
+//     overflow-y: auto;
+//     margin-top: 4px;
+//   }
+//   .pf-suggestion-item {
+//     padding: 10px 14px;
+//     border-bottom: 1px solid #f3f4f6;
+//     cursor: pointer;
+//     transition: background 0.15s;
+//   }
+//   .pf-suggestion-item:last-child {
+//     border-bottom: none;
+//   }
+//   .pf-suggestion-item:hover {
+//     background: #f9fafb;
+//   }
+//   .pf-suggestion-title {
+//     font-weight: 600;
+//     color: #1a2a4a;
+//     font-size: 13.5px;
+//     margin-bottom: 2px;
+//   }
+//   .pf-suggestion-sub {
+//     font-size: 11.5px;
+//     color: #6b7280;
+//   }
+//   .pf-suggestion-add {
+//     display: flex;
+//     align-items: center;
+//     gap: 8px;
+//     color: #c8102e;
+//     font-weight: 600;
+//     font-size: 13px;
+//     padding: 12px 14px;
+//     cursor: pointer;
+//     background: #fff1f2;
+//     transition: background 0.15s;
+//   }
+//   .pf-suggestion-add:hover {
+//     background: #ffe4e6;
+//   }
+
+//   /* ── Modal Overlay ── */
+//   .pf-modal-overlay {
+//     position: fixed;
+//     top: 0; left: 0; right: 0; bottom: 0;
+//     background: rgba(17, 24, 39, 0.4);
+//     backdrop-filter: blur(4px);
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     z-index: 9999;
+//     padding: 20px;
+//   }
+//   .pf-modal-content {
+//     background: #fff;
+//     border-radius: 16px;
+//     width: 100%;
+//     max-width: 500px;
+//     box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+//     overflow: hidden;
+//   }
+//   .pf-modal-header {
+//     padding: 18px 24px;
+//     border-bottom: 1px solid #f3f4f6;
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//   }
+//   .pf-modal-title {
+//     font-weight: 600;
+//     font-size: 18px;
+//     color: #1a2a4a;
+//     margin: 0;
+//     font-family: 'DM Serif Display', serif;
+//   }
+//   .pf-modal-close {
+//     background: transparent;
+//     border: none;
+//     color: #9ca3af;
+//     cursor: pointer;
+//     transition: color 0.15s;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//   }
+//   .pf-modal-close:hover {
+//     color: #4b5563;
+//   }
+//   .pf-modal-body {
+//     padding: 24px;
+//   }
+//   .pf-modal-footer {
+//     padding: 16px 24px;
+//     background: #f9fafb;
+//     border-top: 1px solid #f3f4f6;
+//     display: flex;
+//     justify-content: flex-end;
+//     gap: 12px;
+//   }
+//   .pf-btn-cancel {
+//     padding: 10px 18px;
+//     border-radius: 8px;
+//     font-size: 13.5px;
+//     font-weight: 600;
+//     color: #4b5563;
+//     background: #fff;
+//     border: 1.5px solid #d1d5db;
+//     cursor: pointer;
+//     transition: all 0.15s;
+//   }
+//   .pf-btn-cancel:hover {
+//     background: #f3f4f6;
+//   }
+// `;
+
+// // ─── Section Card wrapper ─────────────────────────────────────────────────────
+// const SectionCard = ({ label, title, icon: Icon, iconBg, iconColor, accent, action, children }) => (
+//     <div className="pf-card" style={{ '--card-accent': accent || 'linear-gradient(90deg,#1a2a4a,#c8102e)' }}>
+//         <div className="pf-card-header">
+//             <div className="pf-card-header-left">
+//                 <div className="pf-card-icon" style={{ background: iconBg }}>
+//                     <Icon size={16} color={iconColor} />
+//                 </div>
+//                 <div>
+//                     <p className="pf-card-label">{label}</p>
+//                     <p className="pf-card-title">{title}</p>
+//                 </div>
+//             </div>
+//             {action && action}
+//         </div>
+//         <div className="pf-card-body">{children}</div>
+//     </div>
+// );
+
+// // ─── Main Component ───────────────────────────────────────────────────────────
+// const PrescriptionForm = ({ patient, onBack, onSave, loading }) => {
+//     const [formData, setFormData] = useState({
+//         vitals: { bodyWeight: patient.weight || '' },
+//         notes: '',
+//         diagnosis: '',
+//         medications: [{ name: '', frequency: '', duration: '', remarks: '' }],
+//         investigations: '',
+//         advice: [''],
+//         followUpDate: '',
+//     });
+
+//     // ── Autocomplete State ──
+//     const [activeSearchIndex, setActiveSearchIndex] = useState(null);
+//     const [suggestions, setSuggestions] = useState([]);
+//     const [isSearching, setIsSearching] = useState(false);
+//     const [showAddModal, setShowAddModal] = useState(false);
+//     const [newMedicineQuery, setNewMedicineQuery] = useState('');
+//     const [newMedForm, setNewMedForm] = useState({
+//         genericName: '',
+//         shortName: '',
+//         brands: '',
+//         category: '',
+//         commonDoses: ''
+//     });
+//     const [savingMed, setSavingMed] = useState(false);
+    
+//     const searchTimeoutRef = useRef(null);
+//     const suggestionBoxRef = useRef(null);
+
+//     useEffect(() => {
+//         const handleClickOutside = (e) => {
+//             if (suggestionBoxRef.current && !suggestionBoxRef.current.contains(e.target)) {
+//                 setActiveSearchIndex(null);
+//             }
+//         };
+//         document.addEventListener('mousedown', handleClickOutside);
+//         return () => document.removeEventListener('mousedown', handleClickOutside);
+//     }, []);
+
+//     const fetchSuggestions = async (query) => {
+//         if (!query || query.trim().length === 0) {
+//             setSuggestions([]);
+//             return;
+//         }
+//         setIsSearching(true);
+//         try {
+//             const res = await fetch(`/api/medicines/search?q=${encodeURIComponent(query)}`);
+//             const data = await res.json();
+//             if (data.success) {
+//                 setSuggestions(data.data);
+//             } else {
+//                 setSuggestions([]);
+//             }
+//         } catch (error) {
+//             console.error("Failed to fetch medicines", error);
+//         } finally {
+//             setIsSearching(false);
+//         }
+//     };
+
+//     const handleCreateMedicine = async (e) => {
+//         e.preventDefault();
+//         if (!newMedForm.genericName) {
+//             toast.error("Generic name is required");
+//             return;
+//         }
+//         setSavingMed(true);
+//         try {
+//             const res = await fetch('/api/medicines/add', {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json' },
+//                 body: JSON.stringify({
+//                     ...newMedForm,
+//                     brands: newMedForm.brands ? newMedForm.brands.split(',').map(b=>b.trim()) : [],
+//                     commonDoses: newMedForm.commonDoses ? newMedForm.commonDoses.split(',').map(d=>d.trim()) : []
+//                 })
+//             });
+//             const data = await res.json();
+//             if (data.success) {
+//                 toast.success("Medicine added successfully");
+                
+//                 if (activeSearchIndex !== null) {
+//                     const meds = [...formData.medications];
+//                     let doseStr = data.data.commonDoses && data.data.commonDoses.length > 0 ? data.data.commonDoses[0] : '';
+//                     meds[activeSearchIndex].name = `${data.data.genericName} ${data.data.shortName ? `(${data.data.shortName})` : ''} ${doseStr ? `- ${doseStr}` : ''}`.trim();
+//                     setFormData(prev => ({ ...prev, medications: meds }));
+//                 }
+
+//                 setShowAddModal(false);
+//                 setActiveSearchIndex(null);
+//             } else {
+//                 toast.error(data.error || "Failed to add medicine");
+//             }
+//         } catch (error) {
+//             console.error("Add medicine error:", error);
+//             toast.error("An error occurred while adding medicine");
+//         } finally {
+//             setSavingMed(false);
+//         }
+//     };
+
+//     const handleMedicineSelect = (medicine, index) => {
+//         const meds = [...formData.medications];
+//         let doseStr = medicine.commonDoses && medicine.commonDoses.length > 0 ? medicine.commonDoses[0] : '';
+//         meds[index].name = `${medicine.genericName} ${medicine.shortName ? `(${medicine.shortName})` : ''} ${doseStr ? `- ${doseStr}` : ''}`.trim();
+//         setFormData(prev => ({ ...prev, medications: meds }));
+//         setActiveSearchIndex(null);
+//     };
+
+//     // ── Handlers ───────────────────────────────────────────────────────────────
+//     const set = (field, value) =>
+//         setFormData((prev) => ({ ...prev, [field]: value }));
+
+//     const setNested = (field, subfield, value) =>
+//         setFormData((prev) => ({ ...prev, [field]: { ...prev[field], [subfield]: value } }));
+
+//     const handleMedChange = (index, field, value) => {
+//         const meds = [...formData.medications];
+//         meds[index][field] = value;
+//         set('medications', meds);
+
+//         if (field === 'name') {
+//             setActiveSearchIndex(index);
+//             setNewMedicineQuery(value);
+            
+//             if (searchTimeoutRef.current) {
+//                 clearTimeout(searchTimeoutRef.current);
+//             }
+            
+//             searchTimeoutRef.current = setTimeout(() => {
+//                 fetchSuggestions(value);
+//             }, 300);
+//         }
+//     };
+
+//     const addMed = () => set('medications', [...formData.medications, { name: '', frequency: '', duration: '', remarks: '' }]);
+//     const removeMed = (i) => set('medications', formData.medications.filter((_, idx) => idx !== i));
+
+//     const handleAdviceChange = (i, value) => {
+//         const a = [...formData.advice];
+//         a[i] = value;
+//         set('advice', a);
+//     };
+//     const addAdvice = () => set('advice', [...formData.advice, '']);
+//     const removeAdvice = (i) => set('advice', formData.advice.filter((_, idx) => idx !== i));
+
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+//         onSave(formData);
+//     };
+
+//     // ── Render ─────────────────────────────────────────────────────────────────
+//     return (
+//         <>
+//             <style>{styles}</style>
+
+//             <form onSubmit={handleSubmit} className="pf-wrap">
+
+//                 {/* ── Two-column top row ── */}
+//                 <div className="pf-grid-2">
+
+//                     {/* Clinical Details */}
+//                     <SectionCard
+//                         label="Step 1"
+//                         title="Clinical Details"
+//                         icon={HeartPulse}
+//                         iconBg="#fff1f2"
+//                         iconColor="#c8102e"
+//                         accent="linear-gradient(90deg,#c8102e,#e11d48)"
+//                     >
+//                         <div className="pf-field">
+//                             <label className="pf-label">Body Weight (kg)</label>
+//                             <input
+//                                 type="text"
+//                                 className="pf-input"
+//                                 placeholder="e.g. 68"
+//                                 value={formData.vitals.bodyWeight}
+//                                 onChange={(e) => setNested('vitals', 'bodyWeight', e.target.value)}
+//                             />
+//                         </div>
+
+//                         <div className="pf-field">
+//                             <label className="pf-label">Clinical Notes (BP, Heart Rate, etc.)</label>
+//                             <textarea
+//                                 className="pf-input pf-textarea"
+//                                 placeholder={`Heart Rate (BPM): 80\nBlood Pressure (mmHg): 130/80\nSpO2 (%): 98`}
+//                                 value={formData.notes}
+//                                 onChange={(e) => set('notes', e.target.value)}
+//                             />
+//                         </div>
+
+//                         <div className="pf-field">
+//                             <label className="pf-label">Diagnosis</label>
+//                             <input
+//                                 type="text"
+//                                 className="pf-input"
+//                                 placeholder="e.g. Acute MI, Coronary Artery Disease"
+//                                 value={formData.diagnosis}
+//                                 onChange={(e) => set('diagnosis', e.target.value)}
+//                             />
+//                         </div>
+//                     </SectionCard>
+
+//                     {/* Tests & Follow-up */}
+//                     <SectionCard
+//                         label="Step 2"
+//                         title="Tests & Follow-up"
+//                         icon={FlaskConical}
+//                         iconBg="#f0fdf4"
+//                         iconColor="#16a34a"
+//                         accent="linear-gradient(90deg,#16a34a,#22c55e)"
+//                     >
+//                         <div className="pf-field">
+//                             <label className="pf-label">Investigations Advised</label>
+//                             <textarea
+//                                 className="pf-input pf-textarea"
+//                                 placeholder="e.g. CBC, Urea, Creatinine, Lipid Profile, ECG, Echo"
+//                                 value={formData.investigations}
+//                                 onChange={(e) => set('investigations', e.target.value)}
+//                             />
+//                         </div>
+
+//                         <div className="pf-field">
+//                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+//                                 <label className="pf-label" style={{ margin: 0 }}>Patient Advice</label>
+//                                 <button type="button" className="pf-btn-add-sm" onClick={addAdvice}>
+//                                     <Plus size={12} /> Add Point
+//                                 </button>
+//                             </div>
+//                             {formData.advice.map((adv, i) => (
+//                                 <div key={i} className="pf-advice-row">
+//                                     <div className="pf-advice-num">{i + 1}</div>
+//                                     <input
+//                                         type="text"
+//                                         className="pf-input"
+//                                         style={{ marginBottom: 0 }}
+//                                         placeholder="e.g. Avoid salty and oily food"
+//                                         value={adv}
+//                                         onChange={(e) => handleAdviceChange(i, e.target.value)}
+//                                     />
+//                                     {formData.advice.length > 1 && (
+//                                         <button type="button" className="pf-btn-del" onClick={() => removeAdvice(i)}>
+//                                             <Trash2 size={14} />
+//                                         </button>
+//                                     )}
+//                                 </div>
+//                             ))}
+//                         </div>
+
+//                         <div className="pf-field">
+//                             <label className="pf-label">Follow-up Date</label>
+//                             <input
+//                                 type="date"
+//                                 className="pf-input"
+//                                 value={formData.followUpDate}
+//                                 onChange={(e) => set('followUpDate', e.target.value)}
+//                             />
+//                         </div>
+//                     </SectionCard>
+//                 </div>
+
+//                 {/* ── Medications ── */}
+//                 <SectionCard
+//                     label="Step 3"
+//                     title="Medications"
+//                     icon={Pill}
+//                     iconBg="#f0f4ff"
+//                     iconColor="#1a2a4a"
+//                     accent="linear-gradient(90deg,#1a2a4a,#243556)"
+//                     action={
+//                         <button type="button" className="pf-btn-add-med" onClick={addMed}>
+//                             <Plus size={15} /> Add Medication
+//                         </button>
+//                     }
+//                 >
+//                     <div style={{ overflowX: 'auto' }}>
+//                         <table className="pf-med-table">
+//                             <thead>
+//                                 <tr>
+//                                     <th style={{ width: '35%' }}>Medicine Name &amp; Dose</th>
+//                                     <th style={{ width: '15%' }}>Frequency</th>
+//                                     <th style={{ width: '15%' }}>Duration</th>
+//                                     <th>Remarks / Instructions</th>
+//                                     <th style={{ width: 52, textAlign: 'center' }}>Del</th>
+//                                 </tr>
+//                             </thead>
+//                             <tbody>
+//                                 {formData.medications.map((med, i) => (
+//                                     <tr key={i}>
+//                                         <td>
+//                                             <div style={{ position: 'relative' }} ref={activeSearchIndex === i ? suggestionBoxRef : null}>
+//                                                 <textarea
+//                                                     className="pf-cell-input"
+//                                                     style={{ minHeight: 56 }}
+//                                                     placeholder="e.g. Tab. Aspirin 75 mg"
+//                                                     value={med.name}
+//                                                     onChange={(e) => handleMedChange(i, 'name', e.target.value)}
+//                                                     onFocus={() => {
+//                                                         if (med.name) {
+//                                                             setActiveSearchIndex(i);
+//                                                             fetchSuggestions(med.name);
+//                                                         }
+//                                                     }}
+//                                                     required
+//                                                 />
+//                                                 {activeSearchIndex === i && (
+//                                                     <div className="pf-autocomplete-dropdown">
+//                                                         {isSearching ? (
+//                                                             <div style={{ padding: '16px', textAlign: 'center', color: '#6b7280' }}>
+//                                                                 <Loader2 size={18} className="animate-spin" style={{ margin: '0 auto', marginBottom: '8px' }} />
+//                                                                 <span style={{ fontSize: '13px' }}>Searching medicines...</span>
+//                                                             </div>
+//                                                         ) : suggestions.length > 0 ? (
+//                                                             <>
+//                                                                 {suggestions.map((sug) => (
+//                                                                     <div key={sug._id} className="pf-suggestion-item" onClick={() => handleMedicineSelect(sug, i)}>
+//                                                                         <div className="pf-suggestion-title">
+//                                                                             {sug.genericName} {sug.shortName && `(${sug.shortName})`}
+//                                                                         </div>
+//                                                                         <div className="pf-suggestion-sub">
+//                                                                             {sug.commonDoses?.length > 0 && <span>Doses: {sug.commonDoses.join(', ')} • </span>}
+//                                                                             {sug.brands?.length > 0 && <span>Brands: {sug.brands.join(', ')}</span>}
+//                                                                         </div>
+//                                                                     </div>
+//                                                                 ))}
+//                                                                 <div className="pf-suggestion-add" onClick={() => {
+//                                                                     setNewMedForm(prev => ({ ...prev, genericName: newMedicineQuery }));
+//                                                                     setShowAddModal(true);
+//                                                                     setActiveSearchIndex(null);
+//                                                                 }}>
+//                                                                     <Plus size={16} /> Add new medicine: "{newMedicineQuery}"
+//                                                                 </div>
+//                                                             </>
+//                                                         ) : newMedicineQuery.trim().length > 0 ? (
+//                                                             <div className="pf-suggestion-item" style={{ cursor: 'default' }}>
+//                                                                 <div style={{ color: '#6b7280', fontSize: '13px', marginBottom: '8px' }}>No matches found.</div>
+//                                                                 <div className="pf-suggestion-add" style={{ borderRadius: '6px' }} onClick={() => {
+//                                                                     setNewMedForm(prev => ({ ...prev, genericName: newMedicineQuery }));
+//                                                                     setShowAddModal(true);
+//                                                                     setActiveSearchIndex(null);
+//                                                                 }}>
+//                                                                     <Plus size={16} /> Add new medicine: "{newMedicineQuery}"
+//                                                                 </div>
+//                                                             </div>
+//                                                         ) : null}
+//                                                     </div>
+//                                                 )}
+//                                             </div>
+//                                         </td>
+//                                         <td>
+//                                             <input
+//                                                 type="text"
+//                                                 className="pf-cell-input"
+//                                                 placeholder="e.g. 1-0-1"
+//                                                 value={med.frequency}
+//                                                 onChange={(e) => handleMedChange(i, 'frequency', e.target.value)}
+//                                                 required
+//                                             />
+//                                         </td>
+//                                         <td>
+//                                             <input
+//                                                 type="text"
+//                                                 className="pf-cell-input"
+//                                                 placeholder="e.g. 30 Days"
+//                                                 value={med.duration}
+//                                                 onChange={(e) => handleMedChange(i, 'duration', e.target.value)}
+//                                                 required
+//                                             />
+//                                         </td>
+//                                         <td>
+//                                             <input
+//                                                 type="text"
+//                                                 className="pf-cell-input"
+//                                                 placeholder="e.g. Take after meals at night"
+//                                                 value={med.remarks}
+//                                                 onChange={(e) => handleMedChange(i, 'remarks', e.target.value)}
+//                                             />
+//                                         </td>
+//                                         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+//                                             <button
+//                                                 type="button"
+//                                                 className="pf-btn-del"
+//                                                 style={{ margin: '0 auto' }}
+//                                                 onClick={() => removeMed(i)}
+//                                                 disabled={formData.medications.length === 1}
+//                                             >
+//                                                 <Trash2 size={15} />
+//                                             </button>
+//                                         </td>
+//                                     </tr>
+//                                 ))}
+//                             </tbody>
+//                         </table>
+//                     </div>
+//                 </SectionCard>
+
+//                 {/* ── Submit ── */}
+//                 <div className="pf-submit-strip">
+//                     <button type="submit" className="pf-btn-save" disabled={loading}>
+//                         {loading ? (
+//                             <>
+//                                 <div className="pf-save-spinner" />
+//                                 Saving…
+//                             </>
+//                         ) : (
+//                             <>
+//                                 <Save size={16} /> Save &amp; Preview
+//                             </>
+//                         )}
+//                     </button>
+//                 </div>
+
+//             </form>
+
+//             {/* ── Add Medicine Modal ── */}
+//             {showAddModal && (
+//                 <div className="pf-modal-overlay" onClick={() => setShowAddModal(false)}>
+//                     <div className="pf-modal-content" onClick={(e) => e.stopPropagation()}>
+//                         <div className="pf-modal-header">
+//                             <h3 className="pf-modal-title">Add New Medicine</h3>
+//                             <button type="button" className="pf-modal-close" onClick={() => setShowAddModal(false)}>
+//                                 <X size={20} />
+//                             </button>
+//                         </div>
+//                         <div className="pf-modal-body">
+//                             <div className="pf-grid-2">
+//                                 <div className="pf-field">
+//                                     <label className="pf-label">Generic Name *</label>
+//                                     <input 
+//                                         type="text" 
+//                                         className="pf-input" 
+//                                         value={newMedForm.genericName}
+//                                         onChange={(e) => setNewMedForm({...newMedForm, genericName: e.target.value})}
+//                                         placeholder="e.g. Paracetamol"
+//                                         autoFocus
+//                                     />
+//                                 </div>
+//                                 <div className="pf-field">
+//                                     <label className="pf-label">Short Name</label>
+//                                     <input 
+//                                         type="text" 
+//                                         className="pf-input" 
+//                                         value={newMedForm.shortName}
+//                                         onChange={(e) => setNewMedForm({...newMedForm, shortName: e.target.value})}
+//                                         placeholder="e.g. PCM"
+//                                     />
+//                                 </div>
+//                             </div>
+//                             <div className="pf-field">
+//                                 <label className="pf-label">Brands (Comma separated)</label>
+//                                 <input 
+//                                     type="text" 
+//                                     className="pf-input" 
+//                                     value={newMedForm.brands}
+//                                     onChange={(e) => setNewMedForm({...newMedForm, brands: e.target.value})}
+//                                     placeholder="e.g. Crocin, Calpol, Dolo"
+//                                 />
+//                             </div>
+//                             <div className="pf-grid-2">
+//                                 <div className="pf-field">
+//                                     <label className="pf-label">Category</label>
+//                                     <input 
+//                                         type="text" 
+//                                         className="pf-input" 
+//                                         value={newMedForm.category}
+//                                         onChange={(e) => setNewMedForm({...newMedForm, category: e.target.value})}
+//                                         placeholder="e.g. Analgesic, Antipyretic"
+//                                     />
+//                                 </div>
+//                                 <div className="pf-field">
+//                                     <label className="pf-label">Common Doses (Comma separated)</label>
+//                                     <input 
+//                                         type="text" 
+//                                         className="pf-input" 
+//                                         value={newMedForm.commonDoses}
+//                                         onChange={(e) => setNewMedForm({...newMedForm, commonDoses: e.target.value})}
+//                                         placeholder="e.g. 500 mg, 650 mg"
+//                                     />
+//                                 </div>
+//                             </div>
+//                         </div>
+//                         <div className="pf-modal-footer">
+//                             <button type="button" className="pf-btn-cancel" onClick={() => setShowAddModal(false)}>
+//                                 Cancel
+//                             </button>
+//                             <button type="button" className="pf-btn-save" onClick={handleCreateMedicine} disabled={savingMed}>
+//                                 {savingMed ? 'Saving...' : 'Save Medicine'}
+//                             </button>
+//                         </div>
+//                     </div>
+//                 </div>
+//             )}
+//         </>
+//     );
+// };
+
+// export default PrescriptionForm;

@@ -1,0 +1,430 @@
+/* ============================================
+   HERO SECTION — Inset / Contained Banner
+   Default: 1600px × 670px
+   ============================================ */
+
+/* ---------- Section wrapper ---------- */
+.hero-section {
+    width: 100%;
+    max-width: 1600px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 20px 30px 40px 30px;
+    /* TOP: 20px | RIGHT: 30px | BOTTOM: 40px | LEFT: 30px */
+    box-sizing: border-box;
+    background-color: #f0f4f8;
+}
+
+/* ---------- Swiper container ---------- */
+.hero-swiper {
+    width: 100%;
+    height: 670px;
+    min-height: 670px;
+    max-height: 670px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+/* CRITICAL: Force ALL Swiper internals to fill declared height */
+.hero-swiper,
+.hero-swiper .swiper-wrapper,
+.hero-swiper .swiper-slide {
+    height: 670px !important;
+    min-height: 670px !important;
+    max-height: 670px !important;
+    width: 100% !important;
+}
+
+/* ---------- Each slide ---------- */
+.slide-content {
+    width: 100%;
+    height: 670px !important;
+    min-height: 670px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* ---------- Gradient overlays ---------- */
+.slide-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.overlay-left {
+    background: linear-gradient(90deg,
+            rgba(15, 23, 42, 0.68) 0%,
+            rgba(15, 23, 42, 0.38) 50%,
+            transparent 100%);
+}
+
+.overlay-center {
+    background: linear-gradient(180deg,
+            rgba(15, 23, 42, 0.25) 0%,
+            rgba(15, 23, 42, 0.60) 100%);
+}
+
+/* ---------- Text container ---------- */
+.slide-text-container {
+    position: relative;
+    z-index: 2;
+    padding: 0 4rem;
+    max-width: 620px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+}
+
+.slide-animate-in {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+.text-left-align {
+    margin-left: 0;
+    text-align: left;
+}
+
+.text-center-align {
+    margin: 0 auto;
+    text-align: center;
+    max-width: 680px;
+}
+
+/* ---------- Typography ---------- */
+.slide-heading {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: clamp(1.6rem, 2.8vw, 2.5rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.75rem 0;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.40);
+}
+
+.slide-subheading {
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.6;
+    margin: 0 0 1.6rem 0;
+    max-width: 480px;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
+
+.text-center-align .slide-subheading {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ---------- CTA Button ---------- */
+.slide-cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 1.8rem;
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.40);
+    transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    white-space: nowrap;
+}
+
+.slide-cta-button:hover {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 22px rgba(37, 99, 235, 0.50);
+}
+
+.slide-cta-button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.35);
+}
+
+.slide-cta-button.cta-phone {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    box-shadow: 0 4px 16px rgba(6, 182, 212, 0.40);
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    padding: 0.65rem 1.2rem;
+}
+
+.slide-cta-button.cta-phone:hover {
+    background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+    box-shadow: 0 7px 22px rgba(6, 182, 212, 0.50);
+}
+
+/* ---------- Swiper Navigation Arrows ---------- */
+.hero-swiper .swiper-button-next,
+.hero-swiper .swiper-button-prev {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    transition: background 0.2s ease;
+    top: 50%;
+    margin-top: -22px;
+}
+
+.hero-swiper .swiper-button-next:hover,
+.hero-swiper .swiper-button-prev:hover {
+    background: rgba(255, 255, 255, 0.30);
+}
+
+.hero-swiper .swiper-button-next::after,
+.hero-swiper .swiper-button-prev::after {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* ---------- Swiper Pagination Dots ---------- */
+.hero-swiper .swiper-pagination {
+    bottom: 16px;
+}
+
+.hero-swiper .swiper-pagination-bullet {
+    width: 9px;
+    height: 9px;
+    background: rgba(255, 255, 255, 0.50);
+    opacity: 1;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+    background: #ffffff;
+    transform: scale(1.35);
+}
+
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   Base default: 1600px × 670px
+   ============================================ */
+
+/* Large desktop — exactly 1600px wide, full 670px height */
+@media (min-width: 1600px) {
+    .hero-section {
+        padding: 20px 30px 40px 30px;
+    }
+
+    .hero-swiper,
+    .hero-swiper .swiper-wrapper,
+    .hero-swiper .swiper-slide,
+    .slide-content {
+        height: 670px !important;
+        min-height: 670px !important;
+        max-height: 670px !important;
+    }
+}
+
+/* Large desktop between 1400px–1599px */
+@media (min-width: 1400px) and (max-width: 1599px) {
+    .hero-section {
+        padding: 20px 30px 40px 30px;
+    }
+
+    .hero-swiper,
+    .hero-swiper .swiper-wrapper,
+    .hero-swiper .swiper-slide,
+    .slide-content {
+        height: 620px !important;
+        min-height: 620px !important;
+        max-height: 620px !important;
+    }
+}
+
+/* Medium desktop 1200px–1399px */
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .hero-section {
+        padding: 18px 26px 36px 26px;
+    }
+
+    .hero-swiper,
+    .hero-swiper .swiper-wrapper,
+    .hero-swiper .swiper-slide,
+    .slide-content {
+        height: 580px !important;
+        min-height: 580px !important;
+        max-height: 580px !important;
+    }
+
+    .slide-text-container {
+        padding: 0 3.5rem;
+        max-width: 580px;
+    }
+}
+
+/* Tablet landscape 1024px–1199px */
+@media (min-width: 1025px) and (max-width: 1199px) {
+    .hero-section {
+        padding: 16px 22px 32px 22px;
+    }
+
+    .hero-swiper,
+    .hero-swiper .swiper-wrapper,
+    .hero-swiper .swiper-slide,
+    .slide-content {
+        height: 530px !important;
+        min-height: 530px !important;
+        max-height: 530px !important;
+    }
+
+    .slide-text-container {
+        padding: 0 3rem;
+        max-width: 560px;
+    }
+}
+
+/* Tablet 768px–1024px */
+@media (max-width: 1024px) {
+    .hero-section {
+        padding: 16px 20px;
+    }
+
+    .hero-swiper,
+    .hero-swiper .swiper-wrapper,
+    .hero-swiper .swiper-slide,
+    .slide-content {
+        height: 480px !important;
+        min-height: 480px !important;
+        max-height: 480px !important;
+    }
+
+    .slide-text-container {
+        padding: 0 2.5rem;
+        max-width: 540px;
+    }
+}
+
+/* Mobile 768px */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 10px;
+    }
+
+    .hero-swiper {
+        border-radius: 8px;
+    }
+
+    .hero-swiper,
+    .hero-swiper .swiper-wrapper,
+    .hero-swiper .swiper-slide,
+    .slide-content {
+        height: 55vw !important;
+        min-height: 200px !important;
+        max-height: 350px !important;
+    }
+
+    .slide-content {
+        background-size: contain !important;
+        background-position: center !important;
+        background-color: #f0f4f8;
+    }
+
+    .overlay-left, .overlay-center {
+        background: none !important;
+    }
+
+    .slide-text-container {
+        padding: 0 1rem 0.5rem;
+        max-width: 100%;
+        text-align: center;
+        position: absolute;
+        bottom: 1rem;
+        left: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text-center-align {
+        text-align: center;
+    }
+
+    .text-center-align .slide-subheading {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .slide-heading {
+        font-size: clamp(1rem, 4vw, 1.25rem);
+        margin-bottom: 0.3rem;
+    }
+
+    .slide-subheading {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+        max-width: 100%;
+    }
+
+    .slide-cta-button {
+        font-size: 0.75rem;
+        padding: 0.4rem 1rem;
+    }
+
+    .hero-swiper .swiper-button-next,
+    .hero-swiper .swiper-button-prev {
+        display: none;
+    }
+}
+
+/* Small phones 480px */
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 0px;
+    }
+
+    .hero-swiper {
+        border-radius: 0px;
+    }
+
+    .hero-swiper,
+    .hero-swiper .swiper-wrapper,
+    .hero-swiper .swiper-slide,
+    .slide-content {
+        height: 60vw !important;
+        min-height: 180px !important;
+        max-height: 250px !important;
+    }
+
+    .slide-heading {
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+    }
+
+    .slide-subheading {
+        font-size: 0.7rem;
+    }
+}
+
+/* Extra small phones 360px */
+@media (max-width: 360px) {
+    .hero-swiper,
+    .hero-swiper .swiper-wrapper,
+    .hero-swiper .swiper-slide,
+    .slide-content {
+        height: 65vw !important;
+        min-height: 160px !important;
+        max-height: 200px !important;
+    }
+}
