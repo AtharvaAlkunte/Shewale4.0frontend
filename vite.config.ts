@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => ({
     },
     proxy: {
       '/api': {
-        target: 'https://dr-shevale-server-yzyg.onrender.com',
+        target: 'https://shewale4-0.onrender.com',
         changeOrigin: true,
       },
     },
